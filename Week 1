@@ -1,0 +1,52 @@
+import serial
+import time
+import random
+
+
+PORT = '/dev/tty.usbmodem21401'  
+BAUD = 9600
+
+# Connect to Arduino
+arduino = serial.Serial(PORT, BAUD)
+time.sleep(2)  # Give time for Arduino to reset
+
+while True:
+    number_to_send = random.randint(1, 5)
+    print(f"[{time.strftime('%H:%M:%S')}] Sending: {number_to_send}")
+    arduino.write(f"{number_to_send}\n".encode())
+
+    while arduino.in_waiting == 0:
+        pass  # Wait for Arduino response
+
+    received = arduino.readline().decode().strip()
+    print(f"[{time.strftime('%H:%M:%S')}] Received: {received} seconds")
+    time.sleep(int(received))
+    print(f"[{time.strftime('%H:%M:%S')}] Done sleeping.\n")
+
+
+#### ARDUINO CODE 
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(13, OUTPUT); // Built-in LED
+}
+
+void loop() {
+  if (Serial.available() > 0) {
+    int blinkCount = Serial.parseInt(); // Read number from Python
+    for (int i = 0; i < blinkCount; i++) {
+      digitalWrite(13, HIGH);
+      delay(1000);
+      digitalWrite(13, LOW);
+      delay(1000);
+    }
+
+    int delaySeconds = random(1, 6); // Random between 1 and 5
+    Serial.println(delaySeconds);    // Send it back to Python
+  }
+}
+
+
+
+
+
