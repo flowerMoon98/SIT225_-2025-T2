@@ -1,0 +1,14 @@
+# Week 8 - Accelerometer Dashboard Requirements
+# Compatible versions for macOS ARM64 (M1/M2 chips)
+
+numpy==1.21.6
+pandas==1.5.3
+dash==3.2.0
+plotly==6.3.0
+arduino-iot-cloud==1.4.1
+
+# Additional dependencies (usually installed automatically)
+python-dateutil>=2.8.2
+pytz>=2020.1
+tzdata>=2022.1
+six>=1.5
